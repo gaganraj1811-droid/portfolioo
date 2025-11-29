@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Your Name — Portfolio</title>
+
+<!-- Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+  /* ====== Base / Theme ====== */
+  :root{
+    --bg:#06080d;
+    --panel:#0f1720;
+    --muted:#9aa6b2;
+    --accent:#00f0ff;
+    --glass: rgba(255,255,255,0.03);
+    --card: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    --radius:16px;
+    --blur: 12px;
+    --shadow: 0 6px 30px rgba(0,0,0,0.6);
+    --glass-border: rgba(255,255,255,0.03);
+  }
+
+  html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  body{
+    background: radial-gradient(1200px 500px at 10% 10%, rgba(0,240,255,0.03), transparent),
+                radial-gradient(900px 400px at 90% 85%, rgba(100,0,255,0.02), transparent),
+                var(--bg);
+    color:#e6eef6;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding:30px;
+    box-sizing:border-box;
+  }
+
+  /* ====== Layout ====== */
+  .wrap{
+    max-width:1100px;
+    margin:18px auto;
+    display:grid;
+    grid-template-columns: 340px 1fr;
+    gap:28px;
+    align-items:start;
+  }
+
+  /* ====== SIDEBAR ====== */
+  .sidebar{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius: var(--radius);
+    padding:22px;
+    box-shadow: var(--shadow);
+    border:1px solid var(--glass-border);
+    position:sticky;
+    top:28px;
+    min-height:420px;
+    backdrop-filter: blur(var(--blur));
+  }
+
+  .profile {
+    width:120px;height:120px;border-radius:50%;
+    display:block;margin:0 auto 14px auto;
+    object-fit:cover;border:3px solid rgba(0,240,255,0.18);
+    box-shadow: 0 6px 30px rgba(0,240,255,0.06), 0 1px 0 rgba(255,255,255,0.02) inset;
+  }
+
+  .name{
+    text-align:center;margin:6px 0 2px;font-weight:700;font-size:20px;
+  }
+  .role{ text-align:center;color:var(--muted); font-size:13px;margin-bottom:12px }
+
+  .tagline{ font-size:13px;color:var(--muted); text-align:center; margin-bottom:18px; padding:0 6px; line-height:1.3 }
+
+  .side-list{ display:grid; gap:10px; margin-top:18px }
+  .side-item{
+    background:var(--glass);
+    border-radius:12px;
+    padding:10px;
+    display:flex;gap:12px;align-items:center;
+    cursor:pointer;border:1px solid transparent;
+    transition: all .22s ease;
+  }
+  .side-item:hover{ transform:translateY(-4px); box-shadow:0 10px 30px rgba(0,0,0,0.6); border-color:rgba(0,240,255,0.06) }
+  .side-item i{ width:36px;text-align:center;color:var(--accent); font-size:16px }
+  .side-item div{flex:1}
+  .side-item small{ color:var(--muted); display:block; font-size:12px }
+
+  .contact-quick{ margin-top:18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap }
+  .btn-ghost{
+    background:transparent;border:1px solid rgba(255,255,255,0.06);
+    padding:8px 12px;border-radius:10px; color:var(--muted); font-size:13px; cursor:pointer;
+    transition:all .16s;
+  }
+  .btn-ghost:hover{ color:var(--accent); border-color: rgba(0,240,255,0.12); transform:translateY(-3px) }
+
+  /* ====== MAIN ====== */
+  .main{
+    min-height:420px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    border-radius: var(--radius);
+    padding:24px;
+    box-shadow:var(--shadow);
+    border:1px solid var(--glass-border);
+    backdrop-filter: blur(var(--blur));
+  }
+
+  .hero{
+    display:flex; align-items:center; gap:18px; justify-content:space-between;
+    margin-bottom:18px;
+  }
+
+  .hero-left h1{ margin:0; font-size:22px; letter-spacing:0.2px }
+  .hero-left p{ margin:6px 0 0; color:var(--muted); font-size:13px }
+
+  .chip{
+    background: linear-gradient(90deg, rgba(0,240,255,0.06), rgba(130,90,255,0.04));
+    border-radius:10px;padding:8px 12px;font-weight:600;color:var(--accent); display:inline-flex; gap:8px; align-items:center;
+    border:1px solid rgba(0,240,255,0.08)
+  }
+
+  /* ====== Grid of Cards ====== */
+  .cards{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px;
+  }
+
+  .card{
+    background: var(--card);
+    border-radius:12px; padding:16px; min-height:120px;
+    border:1px solid rgba(255,255,255,0.02);
+    transition: all .18s ease; cursor:pointer;
+  }
+  .card:hover{ transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); border-color: rgba(0,240,255,0.06) }
+
+  .card h3{ margin:0 0 8px 0; font-size:14px }
+  .muted{ color:var(--muted); font-size:13px }
+
+  /* ====== Modal (Popout) ====== */
+  .modal-backdrop{
+    position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.75));
+    z-index:60; padding:36px;
+  }
+  .modal{
+    width:100%; max-width:880px; border-radius:14px; background: linear-gradient(180deg,#07121a, #041019);
+    padding:22px; box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    border:1px solid rgba(255,255,255,0.03);
+    transform: translateY(20px);
+    animation: pop .22s ease;
+  }
+  @keyframes pop { from {opacity:0; transform:translateY(30px) scale(.98)} to {opacity:1; transform:translateY(0) scale(1)} }
+  .modal h2{margin:0 0 6px 0}
+  .modal .close{
+    float:right; background:transparent;border:none;color:var(--muted); font-size:18px; cursor:pointer;
+  }
+
+  .grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top:12px }
+  .skill-pill{ display:inline-block;padding:8px 10px;border-radius:999px;margin:6px 6px 0 0;border:1px solid rgba(255,255,255,0.02); background:rgba(255,255,255,0.01); font-weight:600; font-size:13px; color:var(--muted) }
+  .project { padding:12px;border-radius:10px;background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.02); margin-bottom:10px }
+
+  /* ====== Footer small ====== */
+  .footer-note{ margin-top:18px; color:var(--muted); font-size:13px; text-align:center }
+
+  /* ====== Responsive ====== */
+  @media (max-width:980px){
+    .wrap{ grid-template-columns: 1fr; padding:12px }
+    .sidebar{ position:relative; top:0 }
+    .hero{ flex-direction:column; align-items:flex-start; gap:12px }
+    .grid-2{ grid-template-columns:1fr }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <!-- Replace 'photo.jpg' with your image filename; keep it in same folder -->
+    <img class="profile" src="kg.png" alt="Your photo (replace photo.jpg)" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22><rect fill=%22%23060b10%22 width=%22120%22 height=%22120%22/></svg>'" />
+
+    <div class="name" id="sideName">Your Name</div>
+    <div class="role" id="sideRole">Web Developer • Designer</div>
+    <div class="tagline" id="sideTag">I build sleek, futuristic UIs and functional web systems. I love performance, clarity and elegant UX.</div>
+
+    <div class="side-list" aria-hidden="false">
+      <div class="side-item" onclick="openModal('about')">
+        <i class="fa-solid fa-user"></i>
+        <div>
+          <strong>About Me</strong>
+          <small>Background & story</small>
+        </div>
+      </div>
+
+      <div class="side-item" onclick="openModal('skills')">
+        <i class="fa-solid fa-code"></i>
+        <div>
+          <strong>Skills</strong>
+          <small>Technologies I use</small>
+        </div>
+      </div>
+
+      <div class="side-item" onclick="openModal('projects')">
+        <i class="fa-solid fa-diagram-project"></i>
+        <div>
+          <strong>Projects</strong>
+          <small>Selected works & demos</small>
+        </div>
+      </div>
+
+      <div class="side-item" onclick="openModal('education')">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <div>
+          <strong>Education</strong>
+          <small>Degrees & institutions</small>
+        </div>
+      </div>
+
+      <div class="side-item" onclick="openModal('biodata')">
+        <i class="fa-solid fa-address-card"></i>
+        <div>
+          <strong>Bio Data</strong>
+          <small>Personal details</small>
+        </div>
+      </div>
+
+      <div class="side-item" onclick="openModal('contact')">
+        <i class="fa-solid fa-envelope"></i>
+        <div>
+          <strong>Contact</strong>
+          <small>Email, phone & links</small>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;text-align:center">
+      <button class="btn-ghost" onclick="downloadVCard()">Download vCard</button>
+      <button class="btn-ghost" onclick="openModal('contact')">Contact</button>
+    </div>
+
+    <div class="footer-note">Made with ♥ • Futuristic dark theme</div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="hero">
+      <div class="hero-left">
+        <h1 id="heroTitle">Your Name <span style="color:var(--accent)">— Portfolio</span></h1>
+        <p id="heroSubtitle" class="muted">Full-stack dev • UI/UX • Systems thinker</p>
+      </div>
+
+      <div class="hero-right">
+        <div class="chip"><i class="fa-solid fa-meteor"></i> <span style="margin-left:6px">Futuristic • Dark • Professional</span></div>
+      </div>
+    </div>
+
+    <section class="cards" aria-label="Quick access cards">
+      <div class="card" onclick="openModal('about')">
+        <h3>About</h3>
+        <div class="muted">Short summary & goals</div>
+      </div>
+
+      <div class="card" onclick="openModal('skills')">
+        <h3>Skills</h3>
+        <div class="muted">Languages, frameworks & tools</div>
+      </div>
+
+      <div class="card" onclick="openModal('projects')">
+        <h3>Projects</h3>
+        <div class="muted">Click to view project list</div>
+      </div>
+
+      <div class="card" onclick="openModal('education')">
+        <h3>Education</h3>
+        <div class="muted">Degrees & certifications</div>
+      </div>
+
+      <div class="card" onclick="openModal('biodata')">
+        <h3>Bio Data</h3>
+        <div class="muted">Personal information</div>
+      </div>
+
+      <div class="card" onclick="openModal('contact')">
+        <h3>Contact</h3>
+        <div class="muted">Email & social links</div>
+      </div>
+    </section>
+
+    <p style="margin-top:16px;color:var(--muted);font-size:13px">Tip: click any card or item on the left to open a popout with full details.</p>
+
+  </main>
+</div>
+
+<!-- ====== MODALS / POP-OUTS ====== -->
+<div id="modalWrap" class="modal-backdrop" aria-hidden="true">
+  <div id="modal" class="modal" role="dialog" aria-modal="true">
+    <button class="close" onclick="closeModal()" title="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+  // ===== Sample placeholder data. Replace these values programmatically or manually in HTML below.
+  const profile = {
+    name: "Gagan Kg",
+    role: "Computer Science Student • Web Developer",
+    tag: "I build polished, futuristic web UIs — with attention to performance & UX.",
+    email: "gagangk@example.com",
+    phone: "+91-XXXXXXXXXX",
+    linkedin: "https://www.linkedin.com/in/yourprofile",
+    github: "https://github.com/yourusername",
+    photo: "kg.png", // put your photo file name here (in same folder)
+    bio: `I am a motivated Computer Science student with strong interest in web development, systems programming, and renewable energy projects. I enjoy building full-stack web apps, designing sleek interfaces, and learning new technologies.`,
+    skills: [
+      "HTML5", "CSS3 (Flexbox, Grid)", "JavaScript (ES6+)",
+      "React", "Node.js / Express", "Python",
+      "SQL / NoSQL", "Git & GitHub", "UI/UX Design"
+    ],
+    projects: [
+      {title:"Personal Portfolio", desc:"This website — responsive, dark-themed portfolio with pop-out sections."},
+      {title:"Wind Energy Dashboard", desc:"Data visualization & monitoring of wind turbine parameters."},
+      {title:"Copyright System Prototype", desc:"A small system to manage copyright claims and tracking."}
+    ],
+    education: [
+      {what:"B.E. Computer Science", where:"Your University", year:"2023 - Present"},
+      {what:"Higher Secondary (Science)", where:"Your College", year:"2021"}
+    ],
+    biodata: {
+      dob:"18 november 2005",
+      city:"nanjangud, karnataka, india",
+      languages:"English, Hindi"
+    }
+  };
+
+  // Populate sidebar text (so user doesn't need to edit many places)
+  document.getElementById('sideName').textContent = profile.name;
+  document.getElementById('sideRole').textContent = profile.role;
+  document.getElementById('sideTag').textContent = profile.tag;
+  document.getElementById('heroTitle').innerHTML = `${profile.name} <span style="color:var(--accent)">— Portfolio</span>`;
+  document.getElementById('heroSubtitle').textContent = profile.role;
+
+  // Modal / popout controller
+  const modalWrap = document.getElementById('modalWrap');
+  const modalContent = document.getElementById('modalContent');
+
+  function openModal(section){
+    let html = '';
+    if(section === 'about'){
+      html = `
+        <h2>About Me</h2>
+        <p class="muted">${profile.bio}</p>
+        <div style="margin-top:12px; display:flex; gap:12px; align-items:center">
+          <img src="${profile.photo}" alt="photo" style="width:96px;height:96px;border-radius:10px;object-fit:cover;border:1px solid rgba(255,255,255,0.03)">
+          <div>
+            <div style="font-weight:700">${profile.name}</div>
+            <div class="muted" style="margin-top:6px">${profile.role}</div>
+          </div>
+        </div>
+      `;
+    } else if(section === 'skills'){
+      html = `<h2>Skills</h2><div class="muted">Technologies & tools I use</div><div style="margin-top:12px">`;
+      profile.skills.forEach(s => html += `<span class="skill-pill">${s}</span>`);
+      html += `</div>`;
+    } else if(section === 'projects'){
+      html = `<h2>Projects</h2><div class="muted">Selected projects & short descriptions</div><div style="margin-top:14px">`;
+      profile.projects.forEach(p => {
+        html += `<div class="project"><strong>${p.title}</strong><div class="muted" style="margin-top:6px">${p.desc}</div></div>`;
+      });
+      html += `</div>`;
+    } else if(section === 'education'){
+      html = `<h2>Education</h2><div class="muted">Formal qualifications</div><div class="grid-2" style="margin-top:12px">`;
+      html += `<div>`;
+      profile.education.forEach(e => {
+        html += `<div style="padding:12px;border-radius:10px;margin-bottom:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)"><strong>${e.what}</strong><div class="muted" style="margin-top:6px">${e.where} • ${e.year}</div></div>`;
+      });
+      html += `</div>`;
+      html += `<div style="padding:12px"><strong>Certifications</strong><div class="muted" style="margin-top:8px">Add any certificates or online courses here (e.g. Coursera, Udemy).</div></div>`;
+      html += `</div>`;
+    } else if(section === 'biodata'){
+      html = `<h2>Bio Data</h2><div class="muted">Basic personal details</div>
+        <div style="margin-top:12px">
+          <p><strong>Name:</strong> ${profile.name}</p>
+          <p><strong>Date of Birth:</strong> ${profile.biodata.dob}</p>
+          <p><strong>Location:</strong> ${profile.biodata.city}</p>
+          <p><strong>Languages:</strong> ${profile.biodata.languages}</p>
+        </div>`;
+    } else if(section === 'contact'){
+      html = `<h2>Contact Me</h2><div class="muted">Get in touch — I reply within a few days</div>
+      <div style="margin-top:12px; display:grid; gap:10px">
+        <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)">
+          <strong>Email</strong><div class="muted" style="margin-top:6px">${profile.email}</div>
+        </div>
+        <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)">
+          <strong>Phone</strong><div class="muted" style="margin-top:6px">${profile.phone}</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <a href="${profile.linkedin}" target="_blank" style="text-decoration:none"><button class="btn-ghost"><i class="fa-brands fa-linkedin"></i>&nbsp;LinkedIn</button></a>
+          <a href="${profile.github}" target="_blank" style="text-decoration:none"><button class="btn-ghost"><i class="fa-brands fa-github"></i>&nbsp;GitHub</button></a>
+        </div>
+      </div>`;
+    } else {
+      html = `<h2>Info</h2><p class="muted">Section coming soon</p>`;
+    }
+
+    modalContent.innerHTML = html;
+    modalWrap.style.display = 'flex';
+    modalWrap.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    modalWrap.style.display = 'none';
+    modalWrap.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  // Close on backdrop click
+  modalWrap.addEventListener('click', (e) => {
+    if(e.target === modalWrap) closeModal();
+  });
+
+  // ===== vCard download helper (creates a simple vCard and downloads it) =====
+  function downloadVCard(){
+    const vcard =
+`BEGIN:VCARD
+VERSION:3.0
+FN:${profile.name}
+TITLE:${profile.role}
+EMAIL;TYPE=INTERNET:${profile.email}
+TEL;TYPE=CELL:${profile.phone}
+URL:${profile.linkedin}
+END:VCARD`;
+    const blob = new Blob([vcard], {type:'text/vcard'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `${profile.name.replace(/\s+/g,'_')}.vcf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ===== Optional: keyboard shortcuts =====
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeModal();
+    if(e.altKey && e.key.toLowerCase() === 'p') openModal('projects');
+    if(e.altKey && e.key.toLowerCase() === 's') openModal('skills');
+  });
+
+  // ---- If you want to programmatically update the profile object with real data:
+  // Replace fields in 'profile' near the top of this script.
+  // Or, after receiving user data from a server, call a function that updates DOM values.
+
+</script>
+
+</body>
+</html>
